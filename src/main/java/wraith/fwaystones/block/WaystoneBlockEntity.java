@@ -150,8 +150,8 @@ public class WaystoneBlockEntity extends LootableContainerBlockEntity implements
         if (nbt.contains("waystone_owner_name")) {
             this.ownerName = nbt.getString("waystone_owner_name");
         }
-        this.color = nbt.contains("color", NbtElement.INT_TYPE) ? nbt.getInt("color") : null;
-        this.inventory = DefaultedList.ofSize(nbt.getInt("inventory_size"), ItemStack.EMPTY);
+        this.color = nbt.contains("color") ? nbt.getInt("color").orElse(null) : null;
+        this.inventory = DefaultedList.ofSize(nbt.getInt("inventory_size").orElse(0), ItemStack.EMPTY);
         Inventories.readNbt(nbt, inventory, lookup);
     }
 

@@ -54,9 +54,7 @@ public class WaystoneStorage {
                 .getOverworld()
                 .getPersistentStateManager()
                 .getOrCreate(
-                        this::createState,
-                        this::stateFromNbt,
-                        ID
+                        PersistantStateType.of(this::createState,this::stateFromNbt)
                 );
 
         loadWaystones();
@@ -84,11 +82,11 @@ public class WaystoneStorage {
         WAYSTONES.clear();
 
         var globals = new HashSet<String>();
-        for (var element : tag.getList("global_waystones", NbtElement.STRING_TYPE)) {
+        for (var element : tag.getList("global_waystones")) {
             globals.add(element.asString());
         }
 
-        var waystones = tag.getList(FabricWaystones.MOD_ID, NbtElement.COMPOUND_TYPE);
+        var waystones = tag.getList(FabricWaystones.MOD_ID);
 
         for (int i = 0; i < waystones.size(); ++i) {
             NbtCompound waystoneTag = waystones.getCompound(i);
@@ -101,7 +99,7 @@ public class WaystoneStorage {
             String nbtHash = waystoneTag.getString("hash");
 
             int[] coordinates = waystoneTag.getIntArray("position");
-            int color = waystoneTag.contains("color", NbtElement.INT_TYPE) ? waystoneTag.getInt("color") : Utils.getRandomColor();
+            int color = waystoneTag.contains("color") ? waystoneTag.getInt("color").orElse(Utils.getRandomColor()) : Utils.getRandomColor();
             BlockPos pos = new BlockPos(coordinates[0], coordinates[1], coordinates[2]);
             String hash = WaystoneBlockEntity.createHashString(dimension, pos);
 

@@ -244,7 +244,7 @@ public class PlayerEntityMixin implements PlayerEntityMixinAccess {
             if (FabricWaystones.WAYSTONE_STORAGE != null) {
                 hashes = FabricWaystones.WAYSTONE_STORAGE.getAllHashes();
             }
-            tag.getList("discovered_waystones", NbtElement.STRING_TYPE)
+            tag.getList("discovered_waystones")
                 .stream()
                 .map(NbtElement::asString)
                 .filter(hashes::contains)
@@ -269,7 +269,7 @@ public class PlayerEntityMixin implements PlayerEntityMixinAccess {
         }
         if (tag.contains("waystone_search_type")) {
             try {
-                this.waystoneSearchType = SearchType.valueOf(tag.getString("waystone_search_type"));
+                this.waystoneSearchType = SearchType.valueOf(tag.getString("waystone_search_type").orElse("DEFAULT"));
             } catch (IllegalArgumentException e) {
                 FabricWaystones.LOGGER.warn("Received invalid waystone search type: " + tag.getString("waystone_search_type"));
             }
