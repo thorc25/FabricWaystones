@@ -37,21 +37,27 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class WaystoneStorage {
 
-    public static final String ID = "fw_waystones";
-    public final ConcurrentHashMap<String, WaystoneValue> WAYSTONES = new ConcurrentHashMap<>();
-    private final PersistentState state;
+    private static final String ID = "fwaystones";
+
+    private final ConcurrentHashMap<String, WaystoneValue> WAYSTONES = new ConcurrentHashMap<>();
     private final MinecraftServer server;
-    PersistentState.Type<PersistentState> type = new PersistentState.Type<>(this::createState, this::stateFromNbt, DataFixTypes.LEVEL);
+    private final PersistentState state;
 
     public WaystoneStorage(MinecraftServer server) {
+        this.server = server;
         if (server == null) {
-            this.server = null;
             this.state = null;
             return;
         }
-        this.server = server;
 
-        state = this.server.getWorld(ServerWorld.OVERWORLD).getPersistentStateManager().getOrCreate(type, ID);
+        this.state = this.server
+                .getOverworld()
+                .getPersistentStateManager()
+                .getOrCreate(
+                        this::createState,
+                        this::stateFromNbt,
+                        ID
+                );
 
         loadWaystones();
     }

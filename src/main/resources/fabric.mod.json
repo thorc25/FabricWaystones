@@ -31,10 +31,9 @@
   ],
   "accessWidener": "fwaystones.accesswidener",
   "depends": {
-    "fabricloader": ">=0.14.21",
-    "fabric": "*",
-    "minecraft": "~1.21",
+    "fabricloader": ">=0.15.5",
+    "minecraft": "~1.21.5",
     "java": ">=21",
-    "owo": ">=0.10.3"
+    "fabric-api": "*"
   }
 }

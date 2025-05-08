@@ -7,7 +7,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.util.math.RotationAxis;
 import wraith.fwaystones.registry.ItemRegistry;
 
@@ -30,7 +30,7 @@ public class WaystoneBlockEntityRenderer implements BlockEntityRenderer<Waystone
         if (entity.getCachedState().get(WaystoneBlock.ACTIVE)) {
             int lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());
             MinecraftClient.getInstance().getItemRenderer().renderItem(
-                    stack, ModelTransformationMode.FIXED, lightAbove, overlay,
+                    stack, ItemDisplayContext.FIXED, lightAbove, overlay,
                     matrices, vertexConsumers, entity.getWorld(), (int) entity.getPos().asLong()
             );
         }
